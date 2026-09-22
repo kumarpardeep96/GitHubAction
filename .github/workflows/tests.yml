@@ -1,0 +1,20 @@
+name: Tests
+on: 
+  workflow_call:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: setup
+        uses: actions/stup-python@v5
+        with:
+          python-version: "3.13"
+      - name: install dep
+        run: pip install -r requirements.txt
+
+      - name: run tests
+        run: pytest test_app.py -v
