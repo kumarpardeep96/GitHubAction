@@ -1,0 +1,27 @@
+name: Deploy Static site
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+      - name: Setup Github Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - name: Upload Artifacts
+        uses: actions/upload-pages-artifacts@v5
+        with:
+          path: "."
+
+      - name: Deploy to github pages
+        uses: actions/deploy-pages@v5
