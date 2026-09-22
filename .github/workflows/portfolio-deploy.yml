@@ -1,0 +1,22 @@
+name: Deploy static website
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: 
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout Code
+        uses: actions/checkout@v5
+      - name: Setup GitHub Pages configuration
+        uses: actions/configure-pages@v5
