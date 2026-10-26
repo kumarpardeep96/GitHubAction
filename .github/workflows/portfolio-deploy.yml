@@ -1,0 +1,30 @@
+name: Deploy a static file
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v5
+      - name: Setup Github pages
+        id: pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - name: upload Artifacts
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: "."
+      - name: Deploy to Github pages
+        id: deployment
+        uses: actions/deploy-pages@v5
