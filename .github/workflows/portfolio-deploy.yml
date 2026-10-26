@@ -2,6 +2,8 @@ name: Deploy a static file
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
 
 permissions:
   contents: read
