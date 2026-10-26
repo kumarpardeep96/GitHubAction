@@ -1,0 +1,18 @@
+# Name of workflow
+name: Hello
+
+# runs on an automatic trigger
+on:
+# Manual trigger
+  workflow_dispatch:
+  push:
+    branches: [main]
+# Jobs inside workflow
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say Hello to user
+        run: echo "Hello Users"
+      - name: say hello to username
+        run: echo "Hello $USER"
