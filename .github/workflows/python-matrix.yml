@@ -1,0 +1,20 @@
+name: pyhton lint
+on:
+  workflow_dispatch:
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+      steps:
+        - name: checkout Code
+          uses: actions/checkout@v4
+          
+        - name: setup python ${{ matrix.python-verion }}
+          uses: actions/setup-python@v5
+          with:
+            python-version: ${{ matrix.python-verion }}
+
+        - name: run linter
+          run: flake8 app.py
