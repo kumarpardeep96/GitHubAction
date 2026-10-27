@@ -1,0 +1,41 @@
+name: DevSecops End to end Pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  # CI ( Continuos Integration with Security scanning)
+  code-quality:
+    uses: ./.github/workflows/code-quality.yml
+    
+  secrets-scan:
+    uses: ./.github/workflows/secrets-scan.yml
+    secrets: inherit
+
+  dependency-scan:
+    uses: ./.github/workflows/dependency-scan.yml
+
+  docker-scan:
+    uses: ./.github/workflows/docker-lint.yml
+
+  tests:
+    uses: ./.github/workflows/tests.yml
+
+  # Build once all security scan are done
+  build:
+    needs: [code-quality, secrets-scan, dependency-scan, docker-scan, tests]
+    uses: ./.github/workflows/docker-build-push.yml
+    secrets: inherit
+
+  # Image scan
+  trivy:
+    needs: [build]
+    uses: ./.github/workflows/image-scan.yml
+    secrets: inherit
+
+  # CD : Deployment
+  deploy:
+    needs: [trivy]
+    uses: ./.github/workflows/deploy.yml
+    secrets: inherit
